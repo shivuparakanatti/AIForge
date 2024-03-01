@@ -55,7 +55,7 @@ const ConversationPage=()=>{
                 messages:newMessages
         })
 
-        console.log(response)
+        console.log(response.data)
             
         } catch (error) {
             console.log(error)
