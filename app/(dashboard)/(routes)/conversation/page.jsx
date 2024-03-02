@@ -19,6 +19,7 @@ import { cn } from "@/lib/utils"
 import axios from "axios"
 import { useRouter } from "next/router"
 import { useState } from "react"
+import conversationAPI, { SendMessage,  } from "@/app/api/conversation/route"
 
 const formSchema = z.object({
     
@@ -29,31 +30,11 @@ const formSchema = z.object({
    
 })
 
-const { Configuration, OpenAIApi } = require("openai");
-require('dotenv').config()
-const OpenAI = require("openai");
-const openai = new OpenAI({
-    apiKey: process.env.OPEN_API_KEY,
-  });
 
-  exports.chatReq = async (req, res) => {
-    try {
-      const message = "Which is the capital of Albania?";
-      const response = await openai.chat.completions.create({
-        model: "gpt-3.5-turbo",
-        messages: [{ role: "user", content: message }],
-        temperature: 0,
-        max_tokens: 1000,
-      });
-      res.status(200).json(response);
-    } catch (err) {
-      res.status(500).json(err.message);
-    }
-  };
 
 const ConversationPage=()=>{
     //const router = useRouter()
-    const [messages,setMessages] = useState([])
+    const [chatLog,setChatLog] = useState([])
 
     const form = useForm({
         resolver: zodResolver(formSchema),
@@ -66,25 +47,17 @@ const ConversationPage=()=>{
     
 
     const onSubmit=async(value)=>{
-        try {
-            const userMessages = {
-                role : 'user',
-                content : value.prompt
-            }
+        setChatLog((prevChatLog) => [...prevChatLog, { type: 'user', message: value.prompt }])
 
-            const newMessages = [...messages,userMessages];
-            const response = await axios.post('/api/conversation',{
-                messages:newMessages
-        })
+       const data =await SendMessage(value.prompt)
+       //console.log(data)
+       setChatLog((prevChatLog) => [...prevChatLog, { type: 'bot', message: data.content }])
 
-        console.log(response.data)
-            
-        } catch (error) {
-            console.log(error)
-        } finally{
-         //   router.refresh()
-        }
+       form.reset()
+       window.scrollTo(0, document.documentElement.scrollHeight);
     }
+    
+    
     return(
         <div>
             <Heading 
@@ -95,7 +68,7 @@ const ConversationPage=()=>{
             bgColor = 'bg-violet-500/10'
             />
 
-            <div className="px-4 lg-px-8 py-4">
+            <div className="px-4 lg-px-8 py-4 ">
                 <div>
 
             <Form {...form}>
@@ -122,7 +95,21 @@ const ConversationPage=()=>{
             </Form>
             </div>
                 <div className="space-y-4 mt-4">
-                    message content
+                    <div className="text-black">
+
+                    {
+                        chatLog && chatLog.map(ele=>{
+                            return(
+                                <div className=" flex flex-col mx-4 my-4">
+
+                                <h1 className={`${ele.type == 'user' ? 'flex items-end justify-end font-bold text-2xl md:text-3xl mr-5' : 'items-start text-xl text-black  mb-2 lg:w-[70%]' } w-[70%]]`}>{ele.message}</h1>
+                                </div>
+
+                            )
+                        })
+                    }
+                    </div>
+
                 </div>
                 
             </div>
