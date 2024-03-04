@@ -1,10 +1,11 @@
 "use client"
 import Heading from "@/components/Heading"
-import { MessageSquare } from "lucide-react"
+import { Code, MessageSquare } from "lucide-react"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 import { Button } from "@/components/ui/button"
+import ReactMarkdown from 'react-markdown'
 import {
     Form,
     FormControl,
@@ -14,7 +15,7 @@ import {
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { useState } from "react"
-import  { SendMessage,  } from "@/app/api/conversation/route"
+import  { SendMessage,  } from "@/app/api/code/route"
 import ReactLoading from 'react-loading';import { Skeleton } from "@/components/ui/skeleton"
 const formSchema = z.object({
     
@@ -27,7 +28,7 @@ const formSchema = z.object({
 
 
 
-const ConversationPage=()=>{
+const codePage=()=>{
     //const router = useRouter()
     const [chatLog,setChatLog] = useState([])
     const [loading,setLoading] = useState(false)
@@ -61,11 +62,11 @@ const ConversationPage=()=>{
 
            
             <Heading 
-            title= "Conversation"
-            desc = 'Our most advanced conversation model'
-            icon = {MessageSquare}
-            iconColor = 'text-violet-500'
-            bgColor = 'bg-violet-500/10'
+            title= "Code Generator"
+            desc = 'Generate a code using descriptive text'
+            icon = {Code}
+            iconColor = 'text-green-500'
+            bgColor = 'bg-green-500/10'
             />
 
             <div className="px-4 lg-px-8 py-4 ">
@@ -80,7 +81,7 @@ const ConversationPage=()=>{
                         render={({ field }) => (
                             <FormItem className='col-span-12 lg:col-span-10'>
                                 <FormControl className='m-0 p-0'>
-                                    <Input placeholder="How do I calculate the radius of circle ?" className='border-0 outline-none focus-visible:ring-0 focus-visible:ring-transparent py-4' {...field} disabled={isLoading} />
+                                    <Input placeholder="Simple toggle button using react hooks?" className='border-0 outline-none focus-visible:ring-0 focus-visible:ring-transparent py-4' {...field} disabled={isLoading} />
                                 </FormControl>
                                
                                 <FormMessage />
@@ -107,7 +108,21 @@ const ConversationPage=()=>{
                             return(
                                 <div className=" flex flex-col mx-4 my-4">
 
-                                <h1 className={`${ele.type == 'user' ? 'flex items-end justify-end font-bold text-xl md:text-2xl mr-5' : 'items-start text-lg text-black  mb-2 lg:w-[70%]' } w-[70%]]`}>{ele.message}</h1>
+                                <ReactMarkdown className={`${ele.type == 'user' ? 'flex items-end justify-end font-bold text-sm md:text-2xl mr-5' : 'items-start text-sm text-black  mb-2 lg:w-[70%]' } w-[70%]]`}
+                                
+                                components={{
+                                    pre: ({ node, ...props }) => (
+                                      <div className="overflow-auto w-full my-2 bg-black text-white p-2 rounded-lg">
+                                        <pre {...props} />
+                                      </div>
+                                    ),
+                                    code: ({ node, ...props }) => (
+                                      <code className="bg-black rounded-lg p-2" {...props} />
+                                    )
+                                  }}
+                                >
+                                    {ele.message || ''}
+                                    </ReactMarkdown>
                                
                                 
                                 </div>
@@ -133,4 +148,4 @@ const ConversationPage=()=>{
     )
 }
 
-export default ConversationPage
+export default codePage

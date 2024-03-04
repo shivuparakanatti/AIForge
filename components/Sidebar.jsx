@@ -8,7 +8,6 @@ import { cn } from "@/lib/utils";
 const Sidebar = ()=>{
 
   const pathName = usePathname()
-  console.log(pathName)
 
     const routes = [
 
@@ -64,7 +63,7 @@ const Sidebar = ()=>{
                 {
                     routes.map(route=>{
                         return (
-                            <div className={cn("hover:bg-gray-700 hover:rounded-md px-4 py-2 flex items-center",pathName==route.href ? 'bg-gray-700 rounded-md' : '')}>
+                            <div key={route.label} className={cn("hover:bg-gray-700 hover:rounded-md px-4 py-2 flex items-center",pathName==route.href ? 'bg-gray-700 rounded-md' : '')}>
                                 <Link href={route.href} key={route.label} className="flex  space-x-2 ">
                                 <route.icon className={`${route.color}`}/>
                                 <h1>{route.label}</h1>
