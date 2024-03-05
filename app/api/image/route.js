@@ -1,45 +1,53 @@
-import axios from "axios";
-import { useState } from "react";
-import { Configuration, OpenAIApi ,openai} from "openai";
-
-export const SendMessage = async(message) => {
-  
-  
-    // [messagedata,setMessageData] = useState()
-    const url = 'https://api.openai.com/v1/images/generations';
-
-    const headers={
-        'Content-type' : 'application/json',
-        'Authorization' : `Bearer ${process.env.NEXT_PUBLIC_OPEN_API_KEY}`
-    }
-
-    const data = {
-      model: "gpt-3.5-turbo",
-      messages: [{ "role": "user", "content": message }]
-    };
-    const requestData = {
-      prompt: prompt,
-      n: 2,
-      size: '256x256', // Set the desired image size here
-   };
-
-    //setIsLoading(true);
-
-    const messagedata = axios.post(url, requestData,{headers : headers}).then((response) => {
-      return response
-
-    
-   // setChatLog((prevChatLog) => [...prevChatLog, { type: 'bot', message: response.data.choices[0].message.content }])
-   // setIsLoading(false);
-  }).catch((error) => {
-    //setIsLoading(false);
-    console.log(error);
-  })
-
- // return messagedata
- console.log(messagedata)
+// import { auth } from "@clerk/nextjs";
+// import { NextResponse } from "next/server";
+// import { Configuration, OpenAIApi } from "openai";
 
 
 
-    //return image_url
-  }
+// const configuration = new Configuration({
+//   apiKey: process.env.NEXT_PUBLIC_OPEN_API_KEY
+// });
+
+// const openai = new OpenAIApi(configuration);
+
+// export async function POST(req) {
+//   try {
+//     const { userId } = auth();
+//     const body = await req.json();
+//     const { prompt, amount = 1, resolution = "512x512" } = body;
+
+//     if (!userId) {
+//       return new NextResponse("Unauthorized", { status: 401 });
+//     }
+
+//     if (!configuration.apiKey) {
+//       return new NextResponse("OpenAI API Key not configured.", { status: 500 });
+//     }
+
+//     if (!prompt) {
+//       return new NextResponse("Prompt is required", { status: 400 });
+//     }
+
+//     if (!amount) {
+//       return new NextResponse("Amount is required", { status: 400 });
+//     }
+
+//     if (!resolution) {
+//       return new NextResponse("Resolution is required", { status: 400 });
+//     }
+
+   
+
+//     const response = await openai.createImage({
+//       prompt : 'horse',
+//       n: 1,
+//       size: resolution,
+//     });
+
+
+//     return NextResponse.json(response.data.data);
+//   } catch (error) {
+//     console.log('[IMAGE_ERROR]', error);
+//     return new NextResponse("Internal Error", { status: 500 });
+//   }
+// };
