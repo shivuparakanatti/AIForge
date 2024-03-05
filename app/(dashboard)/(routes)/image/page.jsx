@@ -1,6 +1,6 @@
 "use client"
 import Heading from "@/components/Heading"
-import { MessageSquare } from "lucide-react"
+import { Image, MessageSquare } from "lucide-react"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
@@ -12,18 +12,13 @@ import {
     FormItem,
     FormMessage,
 } from "@/components/ui/form"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Input } from "@/components/ui/input"
 import { useState } from "react"
-import  { SendMessage,  } from "@/app/api/conversation/route"
-import ReactLoading from 'react-loading';import { Skeleton } from "@/components/ui/skeleton"
-const formSchema = z.object({
-    
-    
-    prompt: z.string().min(1, {
-        message: "Please Enter a prompt.",
-    }),
-   
-})
+import  { SendMessage,  } from "@/app/api/image/route"
+import { Skeleton } from "@/components/ui/skeleton"
+import { amountOptions, formSchema, resolutionOptions } from "./constant"
+
 
 
 
@@ -35,7 +30,9 @@ const ConversationPage=()=>{
     const form = useForm({
         resolver: zodResolver(formSchema),
         defaultValues: {
-          prompt:''
+            prompt: "",
+            amount: "1",
+            resolution: "512x512"
         },
       });
 
@@ -43,12 +40,13 @@ const ConversationPage=()=>{
     
 
     const onSubmit=async(value)=>{
+        console.log(value)
         setLoading(true)
         setChatLog((prevChatLog) => [...prevChatLog, { type: 'user', message: value.prompt }])
 
        const data =await SendMessage(value.prompt)
        //console.log(data)
-       setChatLog((prevChatLog) => [...prevChatLog, { type: 'bot', message: data.content }])
+      // setChatLog((prevChatLog) => [...prevChatLog, { type: 'bot', message: data.content }])
 
        form.reset()
        window.scrollTo(0, document.documentElement.scrollHeight);
@@ -61,11 +59,11 @@ const ConversationPage=()=>{
 
            
             <Heading 
-            title= "Conversation"
-            desc = 'Our most advanced conversation model'
-            icon = {MessageSquare}
-            iconColor = 'text-violet-500'
-            bgColor = 'bg-violet-500/10'
+             title= "Image Generation"
+             desc = 'Turn your prompt to an Image'
+             icon = {Image}
+             iconColor = 'text-red-500'
+             bgColor = 'bg-red-500/10'
             />
 
             <div className="px-4 lg-px-8 py-4 ">
@@ -80,7 +78,7 @@ const ConversationPage=()=>{
                         render={({ field }) => (
                             <FormItem className='col-span-12 lg:col-span-10'>
                                 <FormControl className='m-0 p-0'>
-                                    <Input placeholder="How do I calculate the radius of circle ?" className='border-0 outline-none focus-visible:ring-0 focus-visible:ring-transparent py-4' {...field} disabled={isLoading} />
+                                    <Input placeholder="A man riding a horse in desert" className='border-0 outline-none focus-visible:ring-0 focus-visible:ring-transparent py-4' {...field} disabled={isLoading} />
                                 </FormControl>
                                
                                 <FormMessage />
@@ -88,6 +86,67 @@ const ConversationPage=()=>{
                             
                         )}
                     />
+                     <FormField
+              control={form.control}
+              name="amount"
+              render={({ field }) => (
+                <FormItem className="col-span-12 lg:col-span-2">
+                  <Select 
+                    disabled={isLoading} 
+                    onValueChange={field.onChange} 
+                    value={field.value} 
+                    defaultValue={field.value}
+                  >
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue defaultValue={field.value} />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {amountOptions.map((option) => (
+                        <SelectItem 
+                          key={option.value} 
+                          value={option.value}
+                        >
+                          {option.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </FormItem>
+              )}
+            />
+                   
+                     <FormField
+              control={form.control}
+              name="resolution"
+              render={({ field }) => (
+                <FormItem className="col-span-12 lg:col-span-2">
+                  <Select 
+                    disabled={isLoading} 
+                    onValueChange={field.onChange} 
+                    value={field.value} 
+                    defaultValue={field.value}
+                  >
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue defaultValue={field.value} />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {resolutionOptions.map((option) => (
+                        <SelectItem 
+                          key={option.value} 
+                          value={option.value}
+                        >
+                          {option.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </FormItem>
+              )}
+            />
                    
                     
                     <Button type="submit" className='col-span-12 lg:col-span-1 px-4 w-full'>Generate</Button>
@@ -102,7 +161,7 @@ const ConversationPage=()=>{
                     </div> */}
                     <div className="text-black">
 
-                    {
+                    {/* {
                         chatLog && chatLog.map(ele=>{
                             return(
                                 <div className=" flex flex-col mx-4 my-4">
@@ -114,7 +173,7 @@ const ConversationPage=()=>{
 
                             )
                         })
-                    }
+                    } */}
                      {
                                     loading && <div className="space-y-2">
                                     <Skeleton className="h-4 w-[300px]" />
