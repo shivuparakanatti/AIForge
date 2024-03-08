@@ -29,12 +29,12 @@ const Sidebar = ()=>{
           color: "text-pink-700",
           href: '/image',
         },
-        {
-          label: 'Video Generation',
-          icon: VideoIcon,
-          color: "text-orange-700",
-          href: '/video',
-        },
+        // {
+        //   label: 'Video Generation',
+        //   icon: VideoIcon,
+        //   color: "text-orange-700",
+        //   href: '/video',
+        // },
         {
           label: 'Music Generation',
           icon: Music,

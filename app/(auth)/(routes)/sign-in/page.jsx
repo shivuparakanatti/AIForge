@@ -19,6 +19,8 @@ import { cn } from "@/lib/utils"
 import { signInWithEmailAndPassword } from "firebase/auth"
 import { auth } from "@/firebase/firebase"
 import { useToast } from "@/components/ui/use-toast"
+import { setUser } from "@/lib/features/userSlice"
+import { useDispatch } from "react-redux"
 
 const formSchema = z.object({
     
@@ -33,6 +35,7 @@ const formSchema = z.object({
 
 const SignIn = () => {
     const { toast } = useToast()
+    const dispatch = useDispatch()
 
     const form = useForm({
         resolver: zodResolver(formSchema),
@@ -48,6 +51,7 @@ const SignIn = () => {
         signInWithEmailAndPassword(auth, value.email, value.password)
   .then((userCredential) => {
     const user = userCredential.user;
+    
     toast({
         
         description: "Logged in succesfull",
