@@ -17,6 +17,8 @@ import { Input } from "@/components/ui/input"
 import { useState } from "react"
 import  { SendMessage,  } from "@/app/api/code/route"
 import ReactLoading from 'react-loading';import { Skeleton } from "@/components/ui/skeleton"
+import { setAttempt } from "@/lib/features/userSlice"
+import { useDispatch, useSelector } from "react-redux"
 const formSchema = z.object({
     
     
@@ -32,6 +34,11 @@ const codePage=()=>{
     //const router = useRouter()
     const [chatLog,setChatLog] = useState([])
     const [loading,setLoading] = useState(false)
+    const credits = useSelector(state=>{
+        return state.user.attemptLeft
+    })
+   
+    const dispatch = useDispatch()
 
     const form = useForm({
         resolver: zodResolver(formSchema),
@@ -44,6 +51,7 @@ const codePage=()=>{
     
 
     const onSubmit=async(value)=>{
+        dispatch(setAttempt())
         setLoading(true)
         setChatLog((prevChatLog) => [...prevChatLog, { type: 'user', message: value.prompt }])
 
@@ -91,7 +99,7 @@ const codePage=()=>{
                     />
                    
                     
-                    <Button type="submit" className='col-span-12 lg:col-span-1 px-4 w-full'>Generate</Button>
+                    <Button type="submit" className='col-span-12 lg:col-span-1 px-4 w-full' disabled={credits<=0} >Generate</Button>
                 </form>
             </Form>
             </div>

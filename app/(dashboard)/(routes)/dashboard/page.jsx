@@ -9,10 +9,12 @@ import { useSelector } from "react-redux"
 
 const dashboardPage = ()=>{
     const router = useRouter()
-    const attempts = useSelector(state=>{
+
+    const user = useSelector(state=>{
         return state.user.attemptLeft
     })
-    console.log(attempts)
+  console.log(user)
+   
     return (
         <div>
             <div className=" mb-4 flex flex-col items-center justify-center">

@@ -5,9 +5,15 @@ import { Code, ImageIcon, LayoutDashboard, MessageSquare, Music, Settings, Video
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
+import { useSelector } from "react-redux";
+import { Progress } from "./ui/progress";
+import { Button } from "./ui/button";
 const Sidebar = ()=>{
 
   const pathName = usePathname()
+  const credits = useSelector(state=>{
+    return state.user.attemptLeft
+  })
 
     const routes = [
 
@@ -54,7 +60,9 @@ const Sidebar = ()=>{
         },
       ];
     return (
-        <div >
+        <div className="flex flex-col justify-between h-screen">
+          <div>
+
             <div className="flex flex-row items-center space-x-4 px-2 md:px-8 py-4">
                 <Image alt="logo" src={logo} className="w-8"/>
                 <h1 className="text-2xl">AIForge</h1>
@@ -74,6 +82,18 @@ const Sidebar = ()=>{
                 }
 
             </div>
+          </div>
+
+            <div className="mb-24 md:mb-5 mx-1 md:mx-4 flex flex-col text-center justify-center items-center gap-2 text-lg bg-white/20 py-4">
+              <h1>{credits}/5 Free Credits</h1>
+              <Progress value={credits*20} className="w-[90%] " />
+              {
+              credits>=0 && <div> 
+                <Button className='bg-white/50 text-black hover:bg-white/60'> Add Premium</Button>
+              </div>
+            }
+            </div>
+           
         </div>
     )
 }

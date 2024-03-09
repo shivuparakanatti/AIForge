@@ -13,13 +13,13 @@ const landingPage=()=>{
    // const storageRef = ref(storage, 'some-child');
    const dispatch = useDispatch()
    const router = useRouter()
+ 
 
   
 
 useEffect(()=>{
     onAuthStateChanged(auth, (user) => {
         if (user) {
-          console.log(user.stsTokenManager.accessToken )
           dispatch(setUser(user.email))
           localStorage.setItem("token",user.stsTokenManager.accessToken )
        

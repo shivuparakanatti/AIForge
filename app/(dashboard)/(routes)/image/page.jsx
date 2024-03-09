@@ -24,9 +24,12 @@ import { useEffect, useState } from "react";
 import GetImages, { SendMessage } from "@/app/api/image/route";
 import { Skeleton } from "@/components/ui/skeleton";
 import { amountOptions, formSchema, resolutionOptions } from "./constant";
+import { setAttempt } from "@/lib/features/userSlice";
+import { useDispatch, useSelector } from "react-redux";
 const ConversationPage = () => {
   //const router = useRouter()
   const [image, setImage] = useState(null);
+  const dispatch = useDispatch()
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -36,9 +39,14 @@ const ConversationPage = () => {
     },
   });
 
+  const credits = useSelector(state=>{
+    return state.user.attemptLeft
+  })
+
   const isLoading = form.formState.isSubmitting;
 
   const onSubmit = async (values) => {
+    dispatch(setAttempt())
     setImage(null);
     const allImages = await GetImages(values);
     setImage(allImages);
@@ -140,6 +148,7 @@ const ConversationPage = () => {
               <Button
                 type="submit"
                 className="col-span-12 lg:col-span-1 px-4 w-full"
+                disabled={credits<=0}
               >
                 Generate
               </Button>
