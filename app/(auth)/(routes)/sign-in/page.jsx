@@ -21,6 +21,7 @@ import { auth } from "@/firebase/firebase"
 import { useToast } from "@/components/ui/use-toast"
 import { setUser } from "@/lib/features/userSlice"
 import { useDispatch } from "react-redux"
+import { useRouter } from "next/navigation"
 
 const formSchema = z.object({
     
@@ -36,6 +37,7 @@ const formSchema = z.object({
 const SignIn = () => {
     const { toast } = useToast()
     const dispatch = useDispatch()
+    const router = useRouter()
 
     const form = useForm({
         resolver: zodResolver(formSchema),
@@ -51,6 +53,11 @@ const SignIn = () => {
         signInWithEmailAndPassword(auth, value.email, value.password)
   .then((userCredential) => {
     const user = userCredential.user;
+    if(user){
+        console.log(user)
+
+        router.push('/dashboard')
+    }
     
     toast({
         

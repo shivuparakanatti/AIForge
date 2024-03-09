@@ -32,7 +32,7 @@ const Navbar = ()=>{
               setCurrentUser(user.email)
               
             } else {
-              console.log('no user')
+              router.push('/sign-in')
             }
           });
     },[])

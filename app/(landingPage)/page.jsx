@@ -19,9 +19,12 @@ const landingPage=()=>{
 useEffect(()=>{
     onAuthStateChanged(auth, (user) => {
         if (user) {
-          console.log(user.email)
+          console.log(user.stsTokenManager.accessToken )
           dispatch(setUser(user.email))
+          localStorage.setItem("token",user.stsTokenManager.accessToken )
+       
           router.push('/dashboard')
+
         } else {
           console.log('no user')
         }

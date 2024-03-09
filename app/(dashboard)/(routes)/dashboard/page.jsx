@@ -5,9 +5,14 @@ import { cn } from "@/lib/utils"
 import { ArrowRight } from "lucide-react"
 import Image from "next/image"
 import { useRouter } from "next/navigation"
+import { useSelector } from "react-redux"
 
 const dashboardPage = ()=>{
     const router = useRouter()
+    const attempts = useSelector(state=>{
+        return state.user.attemptLeft
+    })
+    console.log(attempts)
     return (
         <div>
             <div className=" mb-4 flex flex-col items-center justify-center">

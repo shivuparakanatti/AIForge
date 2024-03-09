@@ -64,7 +64,9 @@ const SignUp = () => {
         
             const userRef = collection(db, 'users');
             await setDoc(doc(userRef, userID), {
-                isAdmin: false });
+                isAdmin: false ,
+                attemptLeft : 5
+              });
         
 
     }

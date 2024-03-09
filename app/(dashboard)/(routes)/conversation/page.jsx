@@ -16,6 +16,7 @@ import { Input } from "@/components/ui/input"
 import { useState } from "react"
 import  { SendMessage,  } from "@/app/api/conversation/route"
 import ReactLoading from 'react-loading';import { Skeleton } from "@/components/ui/skeleton"
+import { useDispatch, useSelector } from "react-redux"
 const formSchema = z.object({
     
     
@@ -31,6 +32,7 @@ const ConversationPage=()=>{
     //const router = useRouter()
     const [chatLog,setChatLog] = useState([])
     const [loading,setLoading] = useState(false)
+    const dispatch = useDispatch()
 
     const form = useForm({
         resolver: zodResolver(formSchema),
@@ -43,8 +45,12 @@ const ConversationPage=()=>{
     
 
     const onSubmit=async(value)=>{
+        const userID = useSelector(state=>{
+            return state.user.name
+        })
         setLoading(true)
         setChatLog((prevChatLog) => [...prevChatLog, { type: 'user', message: value.prompt }])
+       
 
        const data =await SendMessage(value.prompt)
        //console.log(data)
