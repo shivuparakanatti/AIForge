@@ -1,13 +1,19 @@
 'use client'
 import Image from "next/image"
 import logo from '../public/logo.png'
-import { Code, ImageIcon, LayoutDashboard, MessageSquare, Music, Settings, VideoIcon } from "lucide-react";
+import { Check, Code, ImageIcon, LayoutDashboard, MessageSquare, Music, Settings, VideoIcon, Zap } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { useSelector } from "react-redux";
 import { Progress } from "./ui/progress";
 import { Button } from "./ui/button";
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "./ui/dialog";
+import { Label } from "./ui/label";
+import { Input } from "./ui/input";
+import { Badge } from "./ui/badge";
+import { Card } from "./ui/card";
+import { tools } from "@/constants";
 const Sidebar = ()=>{
 
   const pathName = usePathname()
@@ -87,11 +93,51 @@ const Sidebar = ()=>{
             <div className="mb-24 md:mb-5 mx-1 md:mx-4 flex flex-col text-center justify-center items-center gap-2 text-lg bg-white/20 py-4">
               <h1>{credits}/5 Free Credits</h1>
               <Progress value={credits*20} className="w-[90%] " />
-              {
-              credits>=0 && <div> 
-                <Button className='bg-white/50 text-black hover:bg-white/60'> Add Premium</Button>
-              </div>
+              
+               <div> 
+
+               <Dialog>
+      <DialogTrigger asChild>
+      <Button variant="premium" className='hover:shadow-md shadow-white'> Add Premium</Button>
+
+      </DialogTrigger>
+      <DialogContent className="sm:max-w-[425px]">
+        <DialogHeader>
+          <DialogTitle className="flex items-center justify-center " >
+            <div className="flex items-center gap-2 font-bold py-1/2">
+              <div>Upgrade to Primium <Badge variant="premium" className='uppercase text-sm py-1'>Pro</Badge></div>
+            </div>
+          </DialogTitle>
+          <DialogDescription className='text-center py-2 space-y-2 text-zink-900 text-md'>
+            
+            {
+              tools.map(ele=>{
+               return ( <Card key={ele.label} className='p-3 border-black/5 flex items-center justify-between'>
+                  <div className="flex flex-row items-center jusify-start gap-4 ">
+                    <div className={cn("p-2 rounded-md w-fitt" , ele.bgColor)}>
+                      <ele.icon className={cn("w-6 h-6",ele.color)}/>
+                    </div>
+                    <div className="font-semibold test-sm">
+                      {ele.label}
+                    </div>
+                  </div>
+                  <Check className="text-primary w-5 h-5"/>
+                </Card>)
+              })
             }
+            
+          </DialogDescription>
+        </DialogHeader>
+          
+        <DialogFooter>
+          <Button size='lg' variant="premium" className='w-full'>Upgrade <Zap className="w-4 h-4 ml-2 fill-white"/></Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+
+
+              </div>
+            
             </div>
            
         </div>

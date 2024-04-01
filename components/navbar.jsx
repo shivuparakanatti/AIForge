@@ -5,9 +5,8 @@ import MobileSidebar from "./MobileSidebar"
 import { useDispatch, useSelector } from "react-redux"
 import { useEffect, useState } from "react"
 import { setUser } from "@/lib/features/userSlice"
-import { onAuthStateChanged, signOut } from "firebase/auth"
+import { getAuth, onAuthStateChanged, signOut } from "firebase/auth"
 import { useRouter } from "next/navigation"
-import { auth } from "@/firebase/firebase"
 import {
     Popover,
     PopoverContent,
@@ -24,19 +23,22 @@ const Navbar = ()=>{
     const [currentUser, setCurrentUser] = useState(null)
 
 
+
+    const auth  = getAuth()
     useEffect(()=>{
-        onAuthStateChanged(auth, (user) => {
-            if (user) {
-             
-              dispatch(setUser(user.email))
-              setCurrentUser(user.email)
-              
-            } else {
-              router.push('/sign-in')
-            }
-          });
-    },[])
-    console.log(currentUser)
+      const currentUserEmail= auth.currentUser?.email
+      console.log(auth.currentUser) 
+       
+              if (currentUserEmail) {
+               
+                dispatch(setUser(currentUserEmail))
+                setCurrentUser(currentUserEmail)
+                
+              } 
+    },[auth])
+
+        
+  
     const handleSignOut=()=>{
       signOut(auth).then(() => {
         router.push('/')

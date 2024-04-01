@@ -1,8 +1,7 @@
 'use client'
 import { Button } from "@/components/ui/button"
-import { auth } from "@/firebase/firebase";
 import { setUser } from "@/lib/features/userSlice";
-import { onAuthStateChanged } from "firebase/auth";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 import Link from "next/link"
 import { redirect,useRouter } from "next/navigation";
 import { useEffect } from "react";
@@ -14,23 +13,21 @@ const landingPage=()=>{
    const dispatch = useDispatch()
    const router = useRouter()
  
-
+  
   
 
 useEffect(()=>{
-    onAuthStateChanged(auth, (user) => {
-        if (user) {
-          dispatch(setUser(user.email))
-          localStorage.setItem("token",user.stsTokenManager.accessToken )
-       
-          router.push('/dashboard')
-
-        } else {
-          console.log('no user')
-        }
-      });
+  const auth  = getAuth()
+  const currentUserEmail= auth.currentUser?.email 
+  async function getData(){
+    const sfRef = db.collection(users).doc(currentUserEmail);
+const collections = await sfRef.listCollections();
+collections.forEach(collection => {
+  console.log('Found subcollection with id:', collection.id);
+});
+  }
 },[])
- 
+
     
     
     return(

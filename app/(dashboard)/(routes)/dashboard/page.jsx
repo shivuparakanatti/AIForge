@@ -2,6 +2,7 @@
 import { Card } from "@/components/ui/card"
 import { tools } from "@/constants"
 import { cn } from "@/lib/utils"
+import { getAuth } from "firebase/auth"
 import { ArrowRight } from "lucide-react"
 import Image from "next/image"
 import { useRouter } from "next/navigation"
@@ -13,7 +14,10 @@ const dashboardPage = ()=>{
     const user = useSelector(state=>{
         return state.user.attemptLeft
     })
-  console.log(user)
+    const auth = getAuth();
+    const currentuser = auth.currentUser?.email
+    console.log(currentuser)
+ 
    
     return (
         <div>
