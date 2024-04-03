@@ -4,6 +4,7 @@ import "./globals.css";
 import { Provider } from "react-redux";
 import { store } from "@/lib/store";
 import StoreProvider from "./StoreProvider";
+import { CrispProvider } from "@/components/crisp-provide";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,6 +20,7 @@ export default function RootLayout({ children }) {
       <StoreProvider>
 
     <html lang="en">
+      <CrispProvider/>
 
       <body className={inter.className}>{children}</body>
     </html>

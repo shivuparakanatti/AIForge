@@ -171,6 +171,9 @@ const SignUp = () => {
           <Button type="submit" className="w-full">
             Submit
           </Button>
+          <div className="my-2">
+          <span className="text-sm text-muted-foreground ">Already have an account? <a href="/sign-in" className="font-bold text-blue-500">Login</a></span>
+        </div>
         </form>
       </Form>
     </div>

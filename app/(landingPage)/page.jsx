@@ -1,4 +1,6 @@
 'use client'
+import LandingHero from "@/components/LandingHero";
+import LandingNavbar from "@/components/LandingNavbar";
 import { Button } from "@/components/ui/button"
 import { setUser } from "@/lib/features/userSlice";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
@@ -17,8 +19,7 @@ const landingPage=()=>{
   
 
 useEffect(()=>{
-  const auth  = getAuth()
-  const currentUserEmail= auth.currentUser?.email 
+ 
   async function getData(){
     const sfRef = db.collection(users).doc(currentUserEmail);
 const collections = await sfRef.listCollections();
@@ -31,14 +32,10 @@ collections.forEach(collection => {
     
     
     return(
-        <div>
-            <h1>This is the landing page(un protected)</h1>
-            <Link href={'/sign-in'}>
-            <Button>Login</Button>
-            </Link>
-            <Link href={'/sign-up'}>
-            <Button>Register</Button>
-            </Link>
+        <div className="h-full">
+        
+          <LandingNavbar/>
+          <LandingHero/>
         </div>
     )
 }

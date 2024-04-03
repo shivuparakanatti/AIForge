@@ -76,11 +76,11 @@ const SignIn = () => {
   };
 
   return (
-    <div>
+    <div className="flex flex-col items-center justify-center">
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="space-y-4 w-72 shadow-lg px-8 py-4"
+          className="space-y-4 w-72 shadow-lg px-4 md:px-8 py-4 "
         >
           <h1 className="flex items-center justify-center text-3xl text-muted-foreground">
             Sign-In
@@ -118,6 +118,11 @@ const SignIn = () => {
           <Button type="submit" className={cn("w-full ")}>
             Submit
           </Button>
+          <div className="my-2">
+
+          <span className="text-sm text-muted-foreground ">Don't have an account? <a href="/sign-up" className="font-bold text-blue-500">Register</a></span>
+          </div>
+
         </form>
       </Form>
     </div>
