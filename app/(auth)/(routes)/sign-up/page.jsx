@@ -84,7 +84,7 @@ const SignUp = () => {
           description: "User account created",
           className: "my-10 mx-20 ",
         });
-        console.log(user.email)
+       
         setUserID(user.email)
 
        
