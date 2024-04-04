@@ -13,6 +13,7 @@ import {
     PopoverTrigger,
   } from "@/components/ui/popover"
 import { toast, useToast } from "./ui/use-toast"
+import { auth } from "@/firebase/firebase"
 
 const Navbar = ()=>{
 
@@ -23,19 +24,16 @@ const Navbar = ()=>{
     const [currentUser, setCurrentUser] = useState(null)
 
 
-
-    const auth  = getAuth()
-    useEffect(()=>{
-      const currentUserEmail= auth.currentUser?.email
-      console.log(auth.currentUser) 
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+  
+        const uid = user.uid;
+        setCurrentUser(user.email)
+        // ...
+      } else {
        
-              if (currentUserEmail) {
-               
-                dispatch(setUser(currentUserEmail))
-                setCurrentUser(currentUserEmail)
-                
-              } 
-    },[auth])
+      }
+    });
 
         
   

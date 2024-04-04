@@ -12,11 +12,12 @@ const dashboardPage = ()=>{
     const router = useRouter()
 
     const user = useSelector(state=>{
-        return state.user.attemptLeft
+        return state.user.name
     })
+    console.log(user)
     const auth = getAuth();
     const currentuser = auth.currentUser?.email
-    console.log(currentuser)
+   
  
    
     return (
@@ -27,12 +28,13 @@ const dashboardPage = ()=>{
             </div>
             <div className="px-4 md:px-20 lg:px-32">
                 {
-                    tools.map(tool=>{
+                    tools.map((tool,i)=>{
                         return (
                             <Card className='p-4 border-black/5 hover:shadow-md cursor-pointer my-2 flex items-center justify-between'
                             onClick={()=>{
                                 router.push(tool.href)
                             }}
+                            key={i}
                             >
                                 <div className="flex items-center justify-center gap-4">
                                     <div className={cn("p-2 rounded-md w-fit",tool.bgColor)}>
