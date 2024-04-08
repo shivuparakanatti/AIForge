@@ -1,5 +1,4 @@
 import axios from "axios";
-import { useState } from "react";
 
 export const SendMessage = (message) => {
     // [messagedata,setMessageData] = useState()
