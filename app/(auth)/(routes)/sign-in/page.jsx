@@ -53,6 +53,7 @@ const SignIn = () => {
         const user = userCredential.user;
         if (user) {
           console.log(user);
+          router.push('/dashboard')
 
          // router.push("/dashboard");
         }

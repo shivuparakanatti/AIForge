@@ -3,7 +3,7 @@ import Image from "next/image"
 import logo from '../public/logo.png'
 import { Check, Code, ImageIcon, LayoutDashboard, MessageSquare, Music, Settings, VideoIcon, Zap } from "lucide-react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { useSelector } from "react-redux";
 import { Progress } from "./ui/progress";
@@ -20,6 +20,7 @@ const Sidebar = ()=>{
   const credits = useSelector(state=>{
     return state.user.attemptLeft
   })
+  const router = useRouter()
 
     const routes = [
 
@@ -65,6 +66,10 @@ const Sidebar = ()=>{
           href: '/settings',
         },
       ];
+
+      const handleUpgrade=()=>{
+        router.push('/payment')
+      }
     return (
         <div className="flex flex-col justify-between h-screen">
           <div>
@@ -130,7 +135,7 @@ const Sidebar = ()=>{
         </DialogHeader>
           
         <DialogFooter>
-          <Button size='lg' variant="premium" className='w-full'>Upgrade <Zap className="w-4 h-4 ml-2 fill-white"/></Button>
+          <Button size='lg' variant="premium" className='w-full' onClick={handleUpgrade}>Upgrade <Zap className="w-4 h-4 ml-2 fill-white"/></Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

@@ -1,42 +1,70 @@
+
+
 import { NextResponse } from "next/server";
 
-const { absoluteUrl } = require("@/lib/utils");
-const { getAuth } = require("firebase/auth");
+import { stripe } from "@/lib/stripe";
+import { absoluteUrl } from "@/lib/utils";
 
+const settingsUrl = absoluteUrl("/settings");
 
-const settingsUrl = absoluteUrl("/settings")
-
-
-const auth = getAuth();
+export async function GET() {
+  try {
+    const auth = getAuth();
 const currentuser = auth.currentUser?.email;
+const uid = auth.currentUser?.uid;
+    
+    const user = await currentuser;
 
-export async function GET(){
-try {
-    if(!currentuser){
-        return new NextResponse('Unauthorized',{status : 401})
+    if (!currentuser || !user) {
+      return new NextResponse("Unauthorized", { status: 401 });
     }
 
-    if(currentuser){
-        const stripeSession = await stripe.billingPortal.sessions.create({
-            customer: currentuser,
-            return_url: settingsUrl
-        })
-        return NextResponse.redirect(stripeSession.url)
-    }
+    // const userSubscription = await prismadb.userSubscription.findUnique({
+    //   where: {
+    //     userId
+    //   }
+    // })
+
+    // if (userSubscription && userSubscription.stripeCustomerId) {
+    //   const stripeSession = await stripe.billingPortal.sessions.create({
+    //     customer: userSubscription.stripeCustomerId,
+    //     return_url: settingsUrl,
+    //   })
+
+    //   return new NextResponse(JSON.stringify({ url: stripeSession.url }))
+    // }
 
     const stripeSession = await stripe.checkout.sessions.create({
-        customer: currentuser,
-        return_url: settingsUrl,
-        payment_method_type : ["card"],
-        mode : "subscription",
-        billing_address_collection : "auto",
-        customer_email : currentuser.email,
+      success_url: settingsUrl,
+      cancel_url: settingsUrl,
+      payment_method_types: ["card"],
+      mode: "subscription",
+      billing_address_collection: "auto",
+      customer_email:currentuser,
+      line_items: [
+        {
+          price_data: {
+            currency: "USD",
+            product_data: {
+              name: "Genius Pro",
+              description: "Unlimited AI Generations"
+            },
+            unit_amount: 2000,
+            recurring: {
+              interval: "month"
+            }
+          },
+          quantity: 1,
+        },
+      ],
+      metadata: {
+        uid,
+      },
     })
-    return NextResponse.redirect(stripeSession.url)
-    
-} catch (error) {
-    console.log(error)
-    return new NextResponse('Internal error',{status: 500});
-    
-}
-}
+
+    return new NextResponse(JSON.stringify({ url: stripeSession.url }))
+  } catch (error) {
+    console.log("[STRIPE_ERROR]", error);
+    return new NextResponse("Internal Error", { status: 500 });
+  }
+};

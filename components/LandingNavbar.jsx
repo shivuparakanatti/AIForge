@@ -36,7 +36,7 @@ const LandingNavbar = ()=>{
         <div>
 
             <Link href={user ? '/dashboard' : '/sign-in'}>
-                <Button variant='outline'className='rounded-full' >Get started</Button>
+                <Button variant='outline'className='rounded-full' >{user ? 'Dashboard' : 'Get started'}</Button>
             </Link>
         </div>
 

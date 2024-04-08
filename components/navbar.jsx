@@ -14,6 +14,7 @@ import {
   } from "@/components/ui/popover"
 import { toast, useToast } from "./ui/use-toast"
 import { auth } from "@/firebase/firebase"
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar"
 
 const Navbar = ()=>{
 
@@ -23,12 +24,12 @@ const Navbar = ()=>{
 
     const [currentUser, setCurrentUser] = useState(null)
 
-
     onAuthStateChanged(auth, (user) => {
       if (user) {
   
         const uid = user.uid;
         setCurrentUser(user.email)
+       // console.log(uid)
         // ...
       } else {
        
@@ -59,7 +60,13 @@ const Navbar = ()=>{
             <MobileSidebar/>
             <div className="flex w-full justify-end">
             <Popover classNamemx-10>
-  <PopoverTrigger> <User size={36} /></PopoverTrigger>
+  <PopoverTrigger> 
+  <Avatar>
+      <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+      <AvatarFallback>CN</AvatarFallback>
+    </Avatar>
+  
+  </PopoverTrigger>
   <PopoverContent className='w-full '>
     <h1>{currentUser}</h1>
     <p className="text-red-500 cursor-pointer pa-2" onClick={handleSignOut}>Sign out</p>

@@ -19,6 +19,7 @@ import { auth, db } from "@/firebase/firebase";
 import { toast, useToast } from "@/components/ui/use-toast";
 import { collection, doc, setDoc } from "firebase/firestore";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 const formSchema = z
   .object({
@@ -46,8 +47,7 @@ const formSchema = z
 const SignUp = () => {
   const { toast } = useToast();
   const [userID,setUserID] = useState(null);
-
-  console.log(userID,"user")
+const router = useRouter()
 
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -84,6 +84,7 @@ const SignUp = () => {
           description: "User account created",
           className: "my-10 mx-20 ",
         });
+        router.push('/sign-in')
        
         setUserID(user.email)
 
