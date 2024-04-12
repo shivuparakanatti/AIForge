@@ -121,7 +121,7 @@ const SignIn = () => {
           </Button>
           <div className="my-2">
 
-          <span className="text-sm text-muted-foreground ">Don't have an account? <a href="/sign-up" className="font-bold text-blue-500">Register</a></span>
+          <span className="text-sm text-muted-foreground ">Dont have an account? <a href="/sign-up" className="font-bold text-blue-500">Register</a></span>
           </div>
 
         </form>
