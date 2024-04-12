@@ -10,7 +10,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
-const landingPage=()=>{
+const LandingPage=()=>{
    // const storageRef = ref(storage, 'some-child');
    const dispatch = useDispatch()
    const router = useRouter()
@@ -40,4 +40,4 @@ collections.forEach(collection => {
     )
 }
 
-export default landingPage
+export default LandingPage

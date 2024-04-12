@@ -30,7 +30,7 @@ const formSchema = z.object({
 
 
 
-const codePage=()=>{
+const CodePage=()=>{
     //const router = useRouter()
     const [chatLog,setChatLog] = useState([])
     const [loading,setLoading] = useState(false)
@@ -156,4 +156,4 @@ const codePage=()=>{
     )
 }
 
-export default codePage
+export default CodePage

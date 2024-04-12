@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils"
 import { ArrowRight } from "lucide-react"
 import { useRouter } from "next/navigation"
 
-const dashboardPage = ()=>{
+const DashboardPage = ()=>{
     const router = useRouter()
 
     // const user = useSelector(state=>{
@@ -48,4 +48,4 @@ const dashboardPage = ()=>{
     )
 }
 
-export default dashboardPage
+export default DashboardPage

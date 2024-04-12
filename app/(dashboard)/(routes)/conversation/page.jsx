@@ -115,9 +115,9 @@ const ConversationPage = () => {
       
           <div className="text-black">
             {chatLog &&
-              chatLog.map((ele) => {
+              chatLog.map((ele,i) => {
                 return (
-                  <div className=" flex flex-col mx-4 my-4">
+                  <div className=" flex flex-col mx-4 my-4" key={i}>
                     <h1
                       className={`${
                         ele.type == "user"
