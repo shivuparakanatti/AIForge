@@ -112,9 +112,9 @@ const CodePage=()=>{
                     <div className="text-black">
 
                     {
-                        chatLog && chatLog.map(ele=>{
+                        chatLog && chatLog.map((ele,i)=>{
                             return(
-                                <div className=" flex flex-col mx-4 my-4">
+                                <div className=" flex flex-col mx-4 my-4" key={i}>
 
                                 <ReactMarkdown className={`${ele.type == 'user' ? 'flex items-end justify-end font-bold text-sm md:text-2xl mr-5' : 'items-start text-sm text-black  mb-2 lg:w-[70%]' } w-[70%]]`}
                                 
